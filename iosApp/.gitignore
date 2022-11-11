@@ -1,0 +1,8 @@
+*.ipa
+*.app.*
+
+xcuserdata/
+*.xcuserstate
+
+# Generated files
+**/Resources/en.lproj

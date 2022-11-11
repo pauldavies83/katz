@@ -1,0 +1,33 @@
+# IntelliJ config files
+*.iml
+**/.idea/caches
+**/.idea/libraries
+**/.idea/misc.xml
+**/.idea/modules.xml
+**/.idea/workspace.xml
+**/.idea/navEditor.xml
+**/.idea/assetWizardSettings.xml
+**/.idea/deploymentTargetDropDown.xml
+**/.idea/vcs.xml
+.idea/vcs.xml
+
+# Gradle files
+.gradle
+**/build
+/buildSrc/.gradle/
+/buildSrc/build/
+
+# Generated build files
+**/gen
+
+# Local configuration
+local.properties
+
+*.log
+
+# Mac System stuff
+.DS_Store
+
+/captures
+.externalNativeBuild
+.cxx
