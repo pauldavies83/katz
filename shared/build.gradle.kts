@@ -39,6 +39,7 @@ kotlin {
         val commonTest by getting {
             dependencies {
                 implementation(kotlin("test"))
+                implementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.6.4")
             }
         }
         val androidMain by getting {
@@ -79,4 +80,7 @@ android {
         minSdk = 23
         targetSdk = 32
     }
+}
+dependencies {
+    androidTestImplementation("junit:junit:4.12")
 }

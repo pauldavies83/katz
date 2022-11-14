@@ -1,6 +1,9 @@
 package dev.pauldavies.katz.di
 
+import dev.pauldavies.katz.service.BreedCache
+import dev.pauldavies.katz.repository.BreedRepository
 import dev.pauldavies.katz.service.KatzImageService
+import dev.pauldavies.katz.service.KatzImageServiceNetwork
 import dev.pauldavies.katz.viewModel.KatzListSharedViewModel
 import io.ktor.client.*
 import io.ktor.client.engine.*
@@ -11,6 +14,7 @@ import io.ktor.serialization.kotlinx.json.*
 import kotlinx.serialization.json.Json
 import org.koin.core.module.dsl.factoryOf
 import org.koin.core.module.dsl.singleOf
+import org.koin.dsl.bind
 import org.koin.dsl.module
 
 internal fun sharedModule() = module {
@@ -31,7 +35,11 @@ internal fun sharedModule() = module {
         }
     }
 
-    singleOf(::KatzImageService)
+    singleOf(::KatzImageServiceNetwork) bind KatzImageService::class
+
+    singleOf(::BreedCache)
+
+    singleOf(::BreedRepository)
 
     factoryOf(::KatzListSharedViewModel)
 }

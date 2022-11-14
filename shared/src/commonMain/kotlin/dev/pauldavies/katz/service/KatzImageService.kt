@@ -7,8 +7,13 @@ import kotlinx.serialization.Serializable
 
 private const val BASE_URL = "https://api.thecatapi.com/v1"
 
-class KatzImageService(private val httpClient: HttpClient) {
-    suspend fun images(breedId: String? = null): Result<List<Image>> {
+interface KatzImageService {
+    suspend fun images(breedId: String? = null): Result<List<Image>>
+    suspend fun breeds(): Result<List<Breed>>
+}
+
+internal class KatzImageServiceNetwork(private val httpClient: HttpClient): KatzImageService {
+    override suspend fun images(breedId: String?): Result<List<Image>> {
         return try {
             val response = httpClient.get("$BASE_URL/images/search") {
                 url {
@@ -24,7 +29,7 @@ class KatzImageService(private val httpClient: HttpClient) {
         }
     }
 
-    suspend fun breeds(): Result<List<Breed>> {
+    override suspend fun breeds(): Result<List<Breed>> {
         return try {
             Result.success(httpClient.get("$BASE_URL/breeds").body())
         } catch (e: Exception) {
