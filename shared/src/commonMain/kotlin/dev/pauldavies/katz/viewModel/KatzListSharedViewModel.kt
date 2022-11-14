@@ -3,6 +3,8 @@ package dev.pauldavies.katz.viewModel
 import dev.pauldavies.katz.service.KatzImageService
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.distinctUntilChanged
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
@@ -14,21 +16,63 @@ class KatzListSharedViewModel(
 
     init {
         ioScope.launch {
-            val breeds = service.breeds().getOrDefault(emptyList()).map { it.name }
+            val breeds = service.breeds().getOrDefault(emptyList()).map { breed ->
+                BreedDrawerItem(
+                    id = breed.id,
+                    name = breed.name,
+                    selected = breed.id == state.value.selectedBreedId,
+                    onClick = {
+                        state.update {
+                            if (it.selectedBreedId == breed.id) {
+                                it.copy(selectedBreedId = null)
+                            } else {
+                                it.copy(selectedBreedId = breed.id)
+                            }
+                        }
+                    }
+                )
+            }
             state.update {
                 it.copy(breeds = breeds)
             }
         }
+
         ioScope.launch {
-            val kats = service.images().getOrDefault(emptyList()).map { it.url }
-            state.update {
-                it.copy(kats = kats)
+            state
+                .map { it.selectedBreedId }
+                .distinctUntilChanged()
+                .collect { selectedBreedId ->
+                    state.update {
+                        it.copy(
+                            breeds = it.breeds?.map { item ->
+                                item.copy(selected = item.id == selectedBreedId)
+                            },
+                            kats = null
+                        )
+                    }
+
+                    val kats = service
+                        .images(state.value.selectedBreedId)
+                        .getOrDefault(emptyList())
+                        .map { it.url }
+
+                    state.update { it.copy(kats = kats) }
             }
         }
     }
 
     data class State(
-        val breeds: List<String>? = null,
+        val selectedBreedId: String? = null,
+        val breeds: List<BreedDrawerItem>? = null,
         val kats: List<String>? = null
-    )
+    ) {
+        val title: String = breeds?.firstOrNull { it.selected }?.name ?: "Katz"
+    }
 }
+
+data class BreedDrawerItem(
+    val id: String,
+    val name: String,
+    val selected: Boolean = false,
+    val onClick: () -> Unit
+)

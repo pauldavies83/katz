@@ -2,6 +2,7 @@ package dev.pauldavies.katz.android.screen.katzlist
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.grid.GridCells
@@ -13,6 +14,7 @@ import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Close
 import androidx.compose.material.icons.filled.Menu
+import androidx.compose.material.icons.filled.Star
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -26,6 +28,7 @@ import coil.compose.AsyncImagePainter
 import coil.compose.rememberAsyncImagePainter
 import coil.request.ImageRequest
 import dev.pauldavies.katz.android.R
+import dev.pauldavies.katz.viewModel.BreedDrawerItem
 import kotlinx.coroutines.launch
 import org.koin.androidx.compose.get
 import org.koin.androidx.compose.getViewModel
@@ -36,11 +39,17 @@ internal fun KatzListScreen(viewModel: KatzListViewModel = getViewModel()) {
     val coroutineScope = rememberCoroutineScope()
     val scaffoldState = rememberScaffoldState()
 
+    val closeDrawer: () -> Unit = {
+        coroutineScope.launch {
+            scaffoldState.drawerState.close()
+        }
+    }
+
     Scaffold(
         scaffoldState = scaffoldState,
         topBar = {
             TopAppBar(
-                title = { Text(text = "Katz") },
+                title = { Text(text = state.value.title) },
                 navigationIcon = {
                     IconButton(onClick = {
                         coroutineScope.launch {
@@ -63,11 +72,7 @@ internal fun KatzListScreen(viewModel: KatzListViewModel = getViewModel()) {
                     CompositionLocalProvider(
                         LocalContentAlpha provides ContentAlpha.high,
                     ) {
-                        IconButton(onClick = {
-                            coroutineScope.launch {
-                                scaffoldState.drawerState.close()
-                            }
-                        }) {
+                        IconButton(onClick = { closeDrawer() }) {
                             Icon(
                                 imageVector = Icons.Filled.Close,
                                 contentDescription = null // TODO accessibility announce
@@ -78,7 +83,7 @@ internal fun KatzListScreen(viewModel: KatzListViewModel = getViewModel()) {
             )
             Box(modifier = Modifier.fillMaxSize()) {
                 state.value.breeds?.let {
-                    BreedList(it)
+                    BreedList(it, closeDrawer)
                 } ?: CircularProgressIndicator(modifier = Modifier.align(Alignment.Center))
             }
         }
@@ -92,14 +97,32 @@ internal fun KatzListScreen(viewModel: KatzListViewModel = getViewModel()) {
 }
 
 @Composable
-private fun BreedList(breeds: List<String>) {
+private fun BreedList(breeds: List<BreedDrawerItem>, onItemSelected: () -> Unit) {
     LazyColumn {
         itemsIndexed(items = breeds) { index, breed ->
-            Text(
-                modifier = Modifier.padding(16.dp),
-                text = breed,
-                style = MaterialTheme.typography.body1
-            )
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .clickable {
+                        breed.onClick()
+                        onItemSelected()
+                    },
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.SpaceBetween
+            ) {
+                Text(
+                    modifier = Modifier.padding(16.dp),
+                    text = breed.name,
+                    style = MaterialTheme.typography.body1
+                )
+                if (breed.selected) {
+                    Icon(
+                        modifier = Modifier.padding(horizontal = 16.dp),
+                        imageVector = Icons.Filled.Star,
+                        contentDescription = null
+                    )
+                }
+            }
             if (index != breeds.lastIndex) {
                 Divider(color = Color.LightGray, thickness = 1.dp, startIndent = 16.dp)
             }
