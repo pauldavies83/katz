@@ -11,8 +11,10 @@ import androidx.compose.material.icons.filled.Menu
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight.Companion.Bold
 import androidx.compose.ui.unit.dp
+import dev.pauldavies.katz.android.R
 import dev.pauldavies.katz.viewModel.BreedDrawerItem
 import kotlinx.coroutines.launch
 import org.koin.androidx.compose.getViewModel
@@ -34,7 +36,7 @@ internal fun KatzListScreen(viewModel: KatzListViewModel = getViewModel()) {
         scaffoldState = scaffoldState,
         topBar = {
             KatzListTopAppBar(
-                title = state.value.title,
+                title = state.value.title ?: stringResource(R.string.app_name),
                 details = state.value.topBarDetails,
                 openDrawer = openDrawer
             )
@@ -43,7 +45,7 @@ internal fun KatzListScreen(viewModel: KatzListViewModel = getViewModel()) {
         drawerContent = {
             TopAppBar(
                 backgroundColor = MaterialTheme.colors.surface,
-                title = { Text(text = "Breedz") },
+                title = { Text(text = stringResource(R.string.drawer_title)) },
                 actions = {
                     CompositionLocalProvider(
                         LocalContentAlpha provides ContentAlpha.high,
@@ -51,7 +53,7 @@ internal fun KatzListScreen(viewModel: KatzListViewModel = getViewModel()) {
                         IconButton(onClick = { closeDrawer() }) {
                             Icon(
                                 imageVector = Icons.Filled.Close,
-                                contentDescription = null // TODO accessibility announce
+                                contentDescription = stringResource(id = R.string.announce_close_drawer)
                             )
                         }
                     }
@@ -100,7 +102,7 @@ private fun KatzListTopAppBar(
                         IconButton(onClick = { openDrawer() }) {
                             Icon(
                                 imageVector = Icons.Filled.Menu,
-                                contentDescription = null // TODO accessibility announce
+                                contentDescription = stringResource(id = R.string.announce_open_drawer)
                             )
                         }
                         Text(
@@ -112,7 +114,7 @@ private fun KatzListTopAppBar(
                         IconButton(onClick = { expanded = !expanded }) {
                             Icon(
                                 imageVector = Icons.Filled.Info,
-                                contentDescription = null // TODO accessibility announce
+                                contentDescription = stringResource(id = R.string.announce_open_breed_info)
                             )
                         }
                     }
@@ -129,13 +131,13 @@ private fun KatzListTopAppBar(
                         ) {
                             details?.description?.let {
                                 item {
-                                    Text(text = "Details", fontWeight = Bold)
+                                    Text(text = stringResource(R.string.breed_details_detail), fontWeight = Bold)
                                     Text(text = it)
                                 }
                             }
                             details?.originCountry?.let {
                                 item {
-                                    Text(text = "Origin Country", fontWeight = Bold)
+                                    Text(text = stringResource(R.string.breed_details_origin), fontWeight = Bold)
                                     Text(text = it)
                                 }
                             }

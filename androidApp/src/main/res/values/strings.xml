@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Katz</string>
+    <string name="drawer_title">Breedz</string>
+
+    <string name="breed_details_detail">Details</string>
+    <string name="breed_details_origin">Origin Country</string>
+
+    <string name="announce_open_drawer">Select breed</string>
+    <string name="announce_close_drawer">Close breed selector</string>
+    <string name="announce_open_breed_info">Show more breed information</string>
+
+</resources>

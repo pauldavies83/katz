@@ -70,7 +70,7 @@ class KatzListSharedViewModel(
         val breeds: List<BreedDrawerItem>? = null,
         val kats: List<String>? = null
     ) {
-        val title: String = breeds?.firstOrNull { it.selected }?.name ?: "Katz"
+        val title = breeds?.firstOrNull { it.selected }?.name
         val topBarDetails = breeds?.firstOrNull { it.selected }?.details
     }
 }
