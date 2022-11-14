@@ -8,7 +8,7 @@ import kotlinx.serialization.Serializable
 class KatzImageService(private val httpClient: HttpClient) {
     suspend fun images(): Result<List<Image>> {
         return try {
-            Result.success(httpClient.get("https://api.thecatapi.com/v1/images/search").body())
+            Result.success(httpClient.get("https://api.thecatapi.com/v1/images/search?limit=50").body())
         } catch (e: Exception) {
             Result.failure(e)
         }
