@@ -1,5 +1,6 @@
 package dev.pauldavies.katz.viewModel
 
+import dev.pauldavies.katz.domain.Breed
 import dev.pauldavies.katz.repository.BreedRepository
 import dev.pauldavies.katz.repository.KatImageRepository
 import kotlinx.coroutines.CoroutineScope
@@ -17,15 +18,9 @@ class KatzListSharedViewModel internal constructor(
         ioScope.launch {
             breedRepository.breeds().collect { breedsResult ->
                 if (breedsResult.isSuccess) {
-                    breedsResult.getOrDefault(emptyList()).map { breed ->
-                        BreedDrawerItem(
-                            id = breed.id,
-                            name = breed.name,
-                            details = BreedDrawerItem.Details(
-                                description = breed.description,
-                                originCountry = breed.origin
-                            ),
-                            selected = breed.id == state.value.selectedBreedId,
+                    breedsResult.getOrNull()?.map { breed ->
+                        breed.breedDrawerItem(
+                            selectedBreedId = state.value.selectedBreedId,
                             onClick = {
                                 state.update {
                                     if (it.selectedBreedId == breed.id) {
@@ -37,9 +32,7 @@ class KatzListSharedViewModel internal constructor(
                             }
                         )
                     }.apply {
-                        state.update {
-                            it.copy(breeds = this)
-                        }
+                        state.update { it.copy(breeds = this) }
                     }
                 }
             }
@@ -91,3 +84,17 @@ data class BreedDrawerItem(
         val originCountry: String? = null
     )
 }
+
+private fun Breed.breedDrawerItem(
+    selectedBreedId: String? = null,
+    onClick: () -> Unit
+) = BreedDrawerItem(
+    id = id,
+    name = name,
+    details = BreedDrawerItem.Details(
+        description = description,
+        originCountry = origin
+    ),
+    selected = id == selectedBreedId,
+    onClick = onClick
+)
