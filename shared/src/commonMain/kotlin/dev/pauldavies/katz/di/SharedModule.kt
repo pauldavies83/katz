@@ -2,6 +2,7 @@ package dev.pauldavies.katz.di
 
 import dev.pauldavies.katz.service.BreedCache
 import dev.pauldavies.katz.repository.BreedRepository
+import dev.pauldavies.katz.repository.KatImageRepository
 import dev.pauldavies.katz.service.KatzImageService
 import dev.pauldavies.katz.service.KatzImageServiceNetwork
 import dev.pauldavies.katz.viewModel.KatzListSharedViewModel
@@ -39,6 +40,7 @@ internal fun sharedModule() = module {
 
     singleOf(::BreedCache)
 
+    singleOf(::KatImageRepository)
     singleOf(::BreedRepository)
 
     factoryOf(::KatzListSharedViewModel)

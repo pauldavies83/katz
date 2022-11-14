@@ -1,5 +1,7 @@
 package dev.pauldavies.katz.service
 
+import dev.pauldavies.katz.domain.Breed
+
 class CacheMissException : Exception()
 
 class BreedCache {

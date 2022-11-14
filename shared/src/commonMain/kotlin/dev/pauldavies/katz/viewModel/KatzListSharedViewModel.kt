@@ -1,14 +1,14 @@
 package dev.pauldavies.katz.viewModel
 
 import dev.pauldavies.katz.repository.BreedRepository
-import dev.pauldavies.katz.service.KatzImageService
+import dev.pauldavies.katz.repository.KatImageRepository
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 
 class KatzListSharedViewModel internal constructor(
     private val breedRepository: BreedRepository,
-    private val service: KatzImageService,
+    private val imageRepository: KatImageRepository,
     ioScope: CoroutineScope
 ) {
     val state = MutableStateFlow(State())
@@ -59,7 +59,7 @@ class KatzListSharedViewModel internal constructor(
                         )
                     }
 
-                    val kats = service
+                    val kats = imageRepository
                         .images(state.value.selectedBreedId)
                         .getOrDefault(emptyList())
                         .map { it.url }
