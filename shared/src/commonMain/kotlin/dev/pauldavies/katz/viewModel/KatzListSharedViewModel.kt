@@ -20,6 +20,10 @@ class KatzListSharedViewModel(
                 BreedDrawerItem(
                     id = breed.id,
                     name = breed.name,
+                    details = BreedDrawerItem.Details(
+                        description = breed.description,
+                        originCountry = breed.origin
+                    ),
                     selected = breed.id == state.value.selectedBreedId,
                     onClick = {
                         state.update {
@@ -67,12 +71,19 @@ class KatzListSharedViewModel(
         val kats: List<String>? = null
     ) {
         val title: String = breeds?.firstOrNull { it.selected }?.name ?: "Katz"
+        val topBarDetails = breeds?.firstOrNull { it.selected }?.details
     }
 }
 
 data class BreedDrawerItem(
     val id: String,
     val name: String,
+    val details: Details,
     val selected: Boolean = false,
     val onClick: () -> Unit
-)
+) {
+    data class Details(
+        val description: String? = null,
+        val originCountry: String? = null
+    )
+}

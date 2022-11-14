@@ -37,4 +37,9 @@ class KatzImageService(private val httpClient: HttpClient) {
 data class Image(val id: String, val url: String)
 
 @Serializable
-data class Breed(val id: String, val name: String)
+data class Breed(
+    val id: String,
+    val name: String,
+    val description: String,
+    val origin: String
+)
