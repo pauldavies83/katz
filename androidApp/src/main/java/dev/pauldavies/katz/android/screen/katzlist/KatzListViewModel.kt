@@ -5,5 +5,5 @@ import dev.pauldavies.katz.viewModel.KatzListSharedViewModel
 import kotlinx.coroutines.flow.StateFlow
 
 internal class KatzListViewModel(sharedViewModel: KatzListSharedViewModel) : ViewModel() {
-    val state: StateFlow<List<String>> = sharedViewModel.state
+    val state: StateFlow<KatzListSharedViewModel.State> = sharedViewModel.state
 }
