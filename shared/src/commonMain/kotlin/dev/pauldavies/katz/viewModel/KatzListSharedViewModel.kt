@@ -42,7 +42,7 @@ class KatzListSharedViewModel internal constructor(
             state
                 .map { it.selectedBreedId }
                 .distinctUntilChanged()
-                .collect { selectedBreedId ->
+                .onEach { selectedBreedId ->
                     state.update {
                         it.copy(
                             breeds = it.breeds?.map { item ->
@@ -51,13 +51,14 @@ class KatzListSharedViewModel internal constructor(
                             kats = null
                         )
                     }
-
-                    val kats = imageRepository
-                        .images(state.value.selectedBreedId)
-                        .getOrDefault(emptyList())
-                        .map { it.url }
-
-                    state.update { it.copy(kats = kats) }
+                }
+                .flatMapLatest { breedId -> imageRepository.images(breedId) }
+                .collect { imagesResult ->
+                    if (imagesResult.isSuccess && imagesResult.getOrNull() != null) {
+                        state.update { state ->
+                            state.copy(kats = imagesResult.getOrNull()!!.map { it.url })
+                        }
+                    }
             }
         }
     }

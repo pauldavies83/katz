@@ -1,6 +1,7 @@
 package dev.pauldavies.katz.di
 
-import dev.pauldavies.katz.service.BreedCache
+import dev.pauldavies.katz.cache.BreedCache
+import dev.pauldavies.katz.cache.ImagesCache
 import dev.pauldavies.katz.repository.BreedRepository
 import dev.pauldavies.katz.repository.KatImageRepository
 import dev.pauldavies.katz.service.KatzImageService
@@ -39,6 +40,7 @@ internal fun sharedModule() = module {
     singleOf(::KatzImageServiceNetwork) bind KatzImageService::class
 
     singleOf(::BreedCache)
+    singleOf(::ImagesCache)
 
     singleOf(::KatImageRepository)
     singleOf(::BreedRepository)

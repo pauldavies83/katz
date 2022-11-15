@@ -1,5 +1,6 @@
 package dev.pauldavies.katz.repository
 
+import dev.pauldavies.katz.cache.BreedCache
 import dev.pauldavies.katz.domain.toBreed
 import dev.pauldavies.katz.repository.KatzImageServiceFake.ServiceBreedCreator
 import dev.pauldavies.katz.service.*
@@ -16,7 +17,7 @@ class BreedRepositoryTest {
     private val breedCache = BreedCache()
     private val repository = BreedRepository(
         service = fakeImageService,
-        breedCache = breedCache
+        cache = breedCache
     )
 
     @Test

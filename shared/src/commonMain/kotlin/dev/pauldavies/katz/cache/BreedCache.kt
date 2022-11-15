@@ -1,8 +1,6 @@
-package dev.pauldavies.katz.service
+package dev.pauldavies.katz.cache
 
 import dev.pauldavies.katz.domain.Breed
-
-class CacheMissException : Exception()
 
 class BreedCache {
     private var breeds: List<Breed>? = null
