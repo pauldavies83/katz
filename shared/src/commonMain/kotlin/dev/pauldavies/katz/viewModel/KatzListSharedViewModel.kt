@@ -77,6 +77,11 @@ class KatzListSharedViewModel internal constructor(
     ) {
         val title = breeds?.firstOrNull { it.selected }?.name
         val topBarDetails = breeds?.firstOrNull { it.selected }?.details
+
+        companion object {
+            @Suppress("unused") // used by iOS
+            fun initial() = State()
+        }
     }
 
     sealed class Event {

@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 51;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -14,6 +14,8 @@
 		7555FF83242A565900829871 /* KatzListScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7555FF82242A565900829871 /* KatzListScreen.swift */; };
 		A9B1263B291E65970011D807 /* Dependencies.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9B1263A291E65970011D807 /* Dependencies.swift */; };
 		A9B1263E291E67470011D807 /* KatzListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9B1263D291E67470011D807 /* KatzListViewModel.swift */; };
+		A9D06D552923C1E600DE55FA /* KatzGrid.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9D06D542923C1E600DE55FA /* KatzGrid.swift */; };
+		A9D06D582923DADB00DE55FA /* Image+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9D06D572923DADB00DE55FA /* Image+Extensions.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -27,6 +29,8 @@
 		7555FF8C242A565B00829871 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		A9B1263A291E65970011D807 /* Dependencies.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Dependencies.swift; sourceTree = "<group>"; };
 		A9B1263D291E67470011D807 /* KatzListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KatzListViewModel.swift; sourceTree = "<group>"; };
+		A9D06D542923C1E600DE55FA /* KatzGrid.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KatzGrid.swift; sourceTree = "<group>"; };
+		A9D06D572923DADB00DE55FA /* Image+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Image+Extensions.swift"; sourceTree = "<group>"; };
 		B097942E7EC798AB32446C3E /* Pods_iosApp.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_iosApp.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -81,6 +85,7 @@
 			children = (
 				A9B12639291E65740011D807 /* DI */,
 				A9B12638291E64C50011D807 /* Screen */,
+				A9D06D562923DAB700DE55FA /* Utils */,
 				058557BA273AAA24004C7B11 /* Assets.xcassets */,
 				7555FF8C242A565B00829871 /* Info.plist */,
 				2152FB032600AC8F00CF470E /* iOSApp.swift */,
@@ -119,8 +124,17 @@
 			children = (
 				7555FF82242A565900829871 /* KatzListScreen.swift */,
 				A9B1263D291E67470011D807 /* KatzListViewModel.swift */,
+				A9D06D542923C1E600DE55FA /* KatzGrid.swift */,
 			);
 			path = KatzList;
+			sourceTree = "<group>";
+		};
+		A9D06D562923DAB700DE55FA /* Utils */ = {
+			isa = PBXGroup;
+			children = (
+				A9D06D572923DADB00DE55FA /* Image+Extensions.swift */,
+			);
+			path = Utils;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -240,7 +254,9 @@
 				A9B1263E291E67470011D807 /* KatzListViewModel.swift in Sources */,
 				A9B1263B291E65970011D807 /* Dependencies.swift in Sources */,
 				2152FB042600AC8F00CF470E /* iOSApp.swift in Sources */,
+				A9D06D582923DADB00DE55FA /* Image+Extensions.swift in Sources */,
 				7555FF83242A565900829871 /* KatzListScreen.swift in Sources */,
+				A9D06D552923C1E600DE55FA /* KatzGrid.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -372,6 +388,7 @@
 				DEVELOPMENT_ASSET_PATHS = "\"iosApp/Preview Content\"";
 				ENABLE_PREVIEWS = YES;
 				INFOPLIST_FILE = iosApp/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -392,6 +409,7 @@
 				DEVELOPMENT_ASSET_PATHS = "\"iosApp/Preview Content\"";
 				ENABLE_PREVIEWS = YES;
 				INFOPLIST_FILE = iosApp/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",

@@ -6,7 +6,7 @@ class KatzListViewModel: ObservableObject {
 
     @Injected private var sharedViewModel: KatzListSharedViewModel
     
-    @Published var state: [String] = []
+    @Published var state: KatzListSharedViewModel.State = KatzListSharedViewModel.State.companion.initial()
     
     private var stateTask: Task<(), Never>? = nil
     
