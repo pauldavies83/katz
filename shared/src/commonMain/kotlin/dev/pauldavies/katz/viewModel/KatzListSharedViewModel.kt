@@ -4,6 +4,7 @@ import dev.pauldavies.katz.domain.Breed
 import dev.pauldavies.katz.repository.BreedRepository
 import dev.pauldavies.katz.repository.KatImageRepository
 import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 
@@ -13,6 +14,8 @@ class KatzListSharedViewModel internal constructor(
     ioScope: CoroutineScope
 ) {
     val state = MutableStateFlow(State())
+    private val _events = Channel<Event>()
+    val events = _events.receiveAsFlow()
 
     init {
         ioScope.launch {
@@ -34,6 +37,8 @@ class KatzListSharedViewModel internal constructor(
                     }.apply {
                         state.update { it.copy(breeds = this) }
                     }
+                } else {
+                    _events.send(Event.ShowError(breedsResult.exceptionOrNull()?.message))
                 }
             }
         }
@@ -58,6 +63,8 @@ class KatzListSharedViewModel internal constructor(
                         state.update { state ->
                             state.copy(kats = imagesResult.getOrNull()!!.map { it.url })
                         }
+                    } else {
+                        _events.send(Event.ShowError(imagesResult.exceptionOrNull()?.message))
                     }
             }
         }
@@ -70,6 +77,10 @@ class KatzListSharedViewModel internal constructor(
     ) {
         val title = breeds?.firstOrNull { it.selected }?.name
         val topBarDetails = breeds?.firstOrNull { it.selected }?.details
+    }
+
+    sealed class Event {
+        data class ShowError(val message: String?): Event()
     }
 }
 

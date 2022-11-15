@@ -16,6 +16,7 @@ import androidx.compose.ui.text.font.FontWeight.Companion.Bold
 import androidx.compose.ui.unit.dp
 import dev.pauldavies.katz.android.R
 import dev.pauldavies.katz.viewModel.BreedDrawerItem
+import dev.pauldavies.katz.viewModel.KatzListSharedViewModel
 import kotlinx.coroutines.launch
 import org.koin.androidx.compose.getViewModel
 
@@ -24,6 +25,18 @@ internal fun KatzListScreen(viewModel: KatzListViewModel = getViewModel()) {
     val state = viewModel.state.collectAsState()
     val coroutineScope = rememberCoroutineScope()
     val scaffoldState = rememberScaffoldState()
+
+    val genericError = stringResource(R.string.generic_error)
+
+    LaunchedEffect(key1 = viewModel.events) {
+        viewModel.events.collect {
+            when (it) {
+                is KatzListSharedViewModel.Event.ShowError -> {
+                    scaffoldState.snackbarHostState.showSnackbar(it.message ?: genericError)
+                }
+            }
+        }
+    }
 
     val openDrawer: () -> Unit = {
         coroutineScope.launch { scaffoldState.drawerState.open() }

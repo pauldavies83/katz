@@ -10,4 +10,6 @@
     <string name="announce_close_drawer">Close breed selector</string>
     <string name="announce_open_breed_info">Show more breed information</string>
 
+    <string name="generic_error">Something went wrong. Please try again</string>
+
 </resources>
