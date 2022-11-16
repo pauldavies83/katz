@@ -1,12 +1,13 @@
-import shared
 import SwiftUI
+import shared
 
 struct KatzListBottomBar: View {
     @State private var showBreeds = false
-    @State private var showInfo = false
+    @State private var showDetails = false
         
     let title: String?
-    let breeds: [BreedDrawerItem]?
+    let breeds: [BreedListItem]?
+    let breedDetails: BreedListItem.Details?
     
     var body: some View {
         VStack {
@@ -18,8 +19,18 @@ struct KatzListBottomBar: View {
                     )
                     .frame(maxHeight: (UIScreen.main.bounds.height) / 1.5, alignment: .bottom)
                 }
-            } else if (showInfo) {
-                VStack {}
+            } else if (showDetails) {
+                if let breedDetails = breedDetails {
+                    VStack(alignment: .leading, spacing: 8) {
+                        if let description = breedDetails.description_ {
+                            Text(description)
+                        }
+                        if let originCountry = breedDetails.originCountry {
+                            Text(originCountry)
+                        }
+                    }
+                    .padding()
+                }
             }
             HStack {
                 Button(action: { showBreeds = !showBreeds }) {
@@ -29,11 +40,12 @@ struct KatzListBottomBar: View {
                 Spacer()
                 Text(title ?? "Katz")
                 Spacer()
-                Button(action: { showInfo = !showInfo }) {
+                Button(action: { showDetails = !showDetails }) {
                     Image(systemName: "info.circle.fill")
                         .foregroundColor(Color.primary)
                 }
             }
+            .padding(.horizontal)
         }
         .padding()
         .padding(.bottom, UIApplication.shared.keyWindow?.safeAreaInsets.bottom)
@@ -44,6 +56,6 @@ struct KatzListBottomBar: View {
             stiffness: 15.35,
             damping: 1.32,
             initialVelocity: 8.0
-        ), value: showBreeds)
+        ), value: showBreeds || showDetails)
     }
 }

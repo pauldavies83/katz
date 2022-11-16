@@ -18,10 +18,10 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
-import dev.pauldavies.katz.viewModel.BreedDrawerItem
+import dev.pauldavies.katz.viewModel.BreedListItem
 
 @Composable
-internal fun BreedList(breeds: List<BreedDrawerItem>, onItemSelected: () -> Unit) {
+internal fun BreedList(breeds: List<BreedListItem>, onItemSelected: () -> Unit) {
     LazyColumn {
         itemsIndexed(items = breeds) { index, breed ->
             Row(

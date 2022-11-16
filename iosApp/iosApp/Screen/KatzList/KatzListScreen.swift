@@ -11,7 +11,8 @@ struct KatzListScreen: View {
             }
             KatzListBottomBar(
                 title: viewModel.state.title,
-                breeds: viewModel.state.breeds
+                breeds: viewModel.state.breeds,
+                breedDetails: viewModel.state.breedDetails
             )
         }
         .onAppear { viewModel.onAppear() }

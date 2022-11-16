@@ -15,7 +15,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight.Companion.Bold
 import androidx.compose.ui.unit.dp
 import dev.pauldavies.katz.android.R
-import dev.pauldavies.katz.viewModel.BreedDrawerItem
+import dev.pauldavies.katz.viewModel.BreedListItem
 import dev.pauldavies.katz.viewModel.KatzListSharedViewModel
 import kotlinx.coroutines.launch
 import org.koin.androidx.compose.getViewModel
@@ -50,7 +50,7 @@ internal fun KatzListScreen(viewModel: KatzListViewModel = getViewModel()) {
         topBar = {
             KatzListTopAppBar(
                 title = state.value.title ?: stringResource(R.string.app_name),
-                details = state.value.topBarDetails,
+                details = state.value.breedDetails,
                 openDrawer = openDrawer
             )
         },
@@ -90,7 +90,7 @@ internal fun KatzListScreen(viewModel: KatzListViewModel = getViewModel()) {
 @Composable
 private fun KatzListTopAppBar(
     title: String,
-    details: BreedDrawerItem.Details? = null,
+    details: BreedListItem.Details? = null,
     openDrawer: () -> Unit,
 ) {
     var expanded by mutableStateOf(false)

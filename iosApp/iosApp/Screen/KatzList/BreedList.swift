@@ -2,7 +2,7 @@ import SwiftUI
 import shared
 
 struct BreedList: View {
-    let breeds: [BreedDrawerItem]
+    let breeds: [BreedListItem]
     let onItemSelected: () -> Void
     
     var body: some View {

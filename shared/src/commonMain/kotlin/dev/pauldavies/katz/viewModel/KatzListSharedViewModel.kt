@@ -22,7 +22,7 @@ class KatzListSharedViewModel internal constructor(
             breedRepository.breeds().collect { breedsResult ->
                 if (breedsResult.isSuccess) {
                     breedsResult.getOrNull()?.map { breed ->
-                        breed.breedDrawerItem(
+                        breed.toBreedListItem(
                             selectedBreedId = state.value.selectedBreedId,
                             onClick = {
                                 state.update {
@@ -72,11 +72,11 @@ class KatzListSharedViewModel internal constructor(
 
     data class State(
         val selectedBreedId: String? = null,
-        val breeds: List<BreedDrawerItem>? = null,
+        val breeds: List<BreedListItem>? = null,
         val kats: List<String>? = null
     ) {
         val title = breeds?.firstOrNull { it.selected }?.name
-        val topBarDetails = breeds?.firstOrNull { it.selected }?.details
+        val breedDetails = breeds?.firstOrNull { it.selected }?.details
 
         companion object {
             @Suppress("unused") // used by iOS
@@ -89,7 +89,7 @@ class KatzListSharedViewModel internal constructor(
     }
 }
 
-data class BreedDrawerItem(
+data class BreedListItem(
     val id: String,
     val name: String,
     val details: Details,
@@ -102,13 +102,13 @@ data class BreedDrawerItem(
     )
 }
 
-private fun Breed.breedDrawerItem(
+private fun Breed.toBreedListItem(
     selectedBreedId: String? = null,
     onClick: () -> Unit
-) = BreedDrawerItem(
+) = BreedListItem(
     id = id,
     name = name,
-    details = BreedDrawerItem.Details(
+    details = BreedListItem.Details(
         description = description,
         originCountry = origin
     ),
