@@ -5,6 +5,7 @@ struct KatzListBottomBar: View {
     @State private var showBreeds = false
     @State private var showDetails = false
         
+    let minHeight: CGFloat
     let title: String?
     let breeds: [BreedListItem]?
     let breedDetails: BreedListItem.Details?
@@ -40,15 +41,21 @@ struct KatzListBottomBar: View {
                 Spacer()
                 Text(title ?? "Katz")
                 Spacer()
-                Button(action: { showDetails = !showDetails }) {
-                    Image(systemName: "info.circle.fill")
-                        .foregroundColor(Color.primary)
+                ZStack {
+                    if (breedDetails != nil) {
+                        Button(action: { showDetails = !showDetails }) {
+                            Image(systemName: "info.circle.fill")
+                                .foregroundColor(Color.primary)
+                        }
+                    }
                 }
+                .frame(width: 16)
             }
             .padding(.horizontal)
         }
         .padding()
         .padding(.bottom, UIApplication.shared.keyWindow?.safeAreaInsets.bottom)
+        .frame(minHeight: minHeight)
         .background(Color(UIColor.secondarySystemBackground))
         .cornerRadius(24, corners: [.topLeft, .topRight])
         .animation(.interpolatingSpring(
